@@ -12,8 +12,8 @@ COPY --from=ghcr.io/astral-sh/uv:0.11.2 /uv /usr/local/bin/uv
 
 WORKDIR /app
 
-COPY pyproject.toml uv.lock README.md ./
-COPY src/ src/
+COPY ../pyproject.toml ../uv.lock ../README.md ./
+COPY ../src/ src/
 
 RUN uv sync --frozen --no-dev --no-editable
 
