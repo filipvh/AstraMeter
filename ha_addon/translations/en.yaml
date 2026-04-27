@@ -59,3 +59,15 @@ configuration:
   deadband:
     name: Deadband (W)
     description: "Optional. Readings with absolute value below this threshold are reported as 0 W to stop battery micro-cycling near zero demand (e.g. 5). Leave empty or 0 to disable."
+  skip_powermeter_test:
+    name: Skip Powermeter Test
+    description: "Optional. (False by default) Skip initial powermeter test on startup."
+  active_control:
+    name: Active Control (CT002/CT003)
+    description: "When enabled (default), the emulator smooths the grid reading, splits the target across batteries, and balances their load. When False, raw meter values are relayed and batteries decide on their own."
+  fair_distribution:
+    name: Fair Distribution (CT002/CT003)
+    description: "When enabled (default), adjust each battery's target so they share the load evenly.  Only matters with 2+ batteries."
+  saturation_detection:
+    name: Saturation Detection (CT002/CT003)
+    description: "When enabled (default), Track how well each battery follows its target. When a battery can't deliver (full or empty), its share is reduced and redistributed to others."

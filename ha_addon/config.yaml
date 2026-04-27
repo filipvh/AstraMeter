@@ -35,6 +35,9 @@ options:
   device_types: "shellypro3em"
   throttle_interval: 0
   wait_for_next_message: true
+  active_control: true
+  fair_distribution: true
+  saturation_detection: true
   marstek_auto_register_ct_device: false
   marstek_mailbox: ""
   marstek_password: ""
@@ -47,6 +50,9 @@ schema:
   device_types: str
   throttle_interval: float(0,)
   wait_for_next_message: bool
+  active_control: bool?
+  fair_distribution: bool?
+  saturation_detection: bool?
   ct_mac: str?
   marstek_auto_register_ct_device: bool?
   marstek_mailbox: str?
@@ -62,3 +68,7 @@ schema:
   deadband: float(0,)?
   custom_config: str?
   mqtt_uri: str?
+  skip_powermeter_test: bool?
+
+
+

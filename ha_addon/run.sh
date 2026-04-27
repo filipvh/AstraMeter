@@ -6,12 +6,12 @@ wait_for_homeassistant() {
     local max_attempts=60  # 5 minutes with 5-second intervals
     local attempt=1
     local ha_url="http://supervisor:80/core/api/"
-    
+
     bashio::log.info "Waiting for Home Assistant to be ready..."
-    
+
     while [ $attempt -le $max_attempts ]; do
         bashio::log.debug "Checking Home Assistant readiness (attempt $attempt/$max_attempts)..."
-        
+
         # Check if the API responds with a valid status
         if curl -s -f -H "Authorization: Bearer $SUPERVISOR_TOKEN" \
            -H "Content-Type: application/json" \
@@ -20,12 +20,12 @@ wait_for_homeassistant() {
             bashio::log.info "Home Assistant is ready! Proceeding with AstraMeter startup..."
             return 0
         fi
-        
+
         bashio::log.debug "Home Assistant not ready yet, waiting 5 seconds..."
         sleep 5
         attempt=$((attempt + 1))
     done
-    
+
     bashio::log.warning "Home Assistant may not be fully ready after $((max_attempts * 5)) seconds, but continuing anyway..."
     return 1
 }
@@ -84,6 +84,7 @@ else
     {
         echo "[GENERAL]"
         echo "DEVICE_TYPE=$(bashio::config 'device_types')"
+        echo "SKIP_POWERMETER_TEST=$(bashio::config 'skip_powermeter_test')"
         echo "THROTTLE_INTERVAL=$(bashio::config 'throttle_interval')"
         if bashio::config.has_value 'dedupe_time_window'; then
             echo "DEDUPE_TIME_WINDOW=$(bashio::config 'dedupe_time_window')"
@@ -92,11 +93,17 @@ else
         echo ""
         if [ "$has_ct002" -eq 1 ] && [ "$has_ct003" -eq 1 ]; then
             echo "[CT002]"
+            echo "ACTIVE_CONTROL=$(bashio::config 'active_control')"
+            echo "FAIR_DISTRIBUTION=$(bashio::config 'fair_distribution')"
+            echo "SATURATION_DETECTION=$(bashio::config 'saturation_detection')"
             echo "CT_MAC=$ct_mac"
             [ -n "$min_efficient_power" ] && echo "MIN_EFFICIENT_POWER=$min_efficient_power"
             [ -n "$efficiency_rotation_interval" ] && echo "EFFICIENCY_ROTATION_INTERVAL=$efficiency_rotation_interval"
             echo ""
             echo "[CT003]"
+            echo "ACTIVE_CONTROL=$(bashio::config 'active_control')"
+            echo "FAIR_DISTRIBUTION=$(bashio::config 'fair_distribution')"
+            echo "SATURATION_DETECTION=$(bashio::config 'saturation_detection')"
             echo "CT_MAC=$ct_mac"
             [ -n "$min_efficient_power" ] && echo "MIN_EFFICIENT_POWER=$min_efficient_power"
             [ -n "$efficiency_rotation_interval" ] && echo "EFFICIENCY_ROTATION_INTERVAL=$efficiency_rotation_interval"
