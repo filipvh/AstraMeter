@@ -110,6 +110,9 @@ else
             echo ""
         else
             echo "[$ct_section]"
+            echo "ACTIVE_CONTROL=$(bashio::config 'active_control')"
+            echo "FAIR_DISTRIBUTION=$(bashio::config 'fair_distribution')"
+            echo "SATURATION_DETECTION=$(bashio::config 'saturation_detection')"
             echo "CT_MAC=$ct_mac"
             [ -n "$min_efficient_power" ] && echo "MIN_EFFICIENT_POWER=$min_efficient_power"
             [ -n "$efficiency_rotation_interval" ] && echo "EFFICIENCY_ROTATION_INTERVAL=$efficiency_rotation_interval"
